@@ -11,9 +11,9 @@ const port = 3000;
 app.use(express.static("frontends"));
 
 io.on("connection", (socket) => {
-    console.log(`${socket.id} has connected!`);
+  console.log(`${socket.id} has connected!`);
 });
 
 server.listen(port, () => {
-    console.log(`Server listening on port ${port}!`);
+  console.log(`Server listening on port ${port}!`);
 });
