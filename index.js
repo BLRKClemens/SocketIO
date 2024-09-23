@@ -4,6 +4,8 @@ import { Server } from "socket.io";
 import fs from "fs";
 import https from "https";
 
+const port = 3000;
+
 const app = express();
 let server;
 const publicServer = false;
@@ -13,20 +15,18 @@ if (publicServer) {
     key: fs.readFileSync("C:/Certbot/live/connect.blrk.io/privkey.pem"),
     cert: fs.readFileSync("C:/Certbot/live/connect.blrk.io/fullchain.pem"),
   };
-  server = https.createServer(options, app);
+  server = https.createServer(options, app).listen(port, () => {
+    console.log(`Server listening on port ${port} via HTTPS!`);
+  });
 } else {
-  server = http.createServer(app);
+  server = http.createServer(app).listen(port, () => {
+    console.log(`Server listening on port ${port} via HTTP!`);
+  });
 }
 const io = new Server(server);
-
-const port = 3000;
 
 app.use(express.static("frontends"));
 
 io.on("connection", (socket) => {
   console.log(`${socket.id} has connected!`);
-});
-
-server.listen(port, () => {
-  console.log(`Server listening on port ${port}!`);
 });
