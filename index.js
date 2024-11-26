@@ -28,5 +28,7 @@ const io = new Server(server);
 app.use(express.static("frontends"));
 
 io.on("connection", (socket) => {
-  console.log(`${socket.id} has connected!`);
+  console.log(
+    `${socket.handshake.address} has connected to ${socket.handshake.headers.referer}!`
+  );
 });
